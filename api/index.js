@@ -1,9 +1,21 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+require('dotenv').config()
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+const db_url = process.env.DB_URL;
+
+mongoose.connect(db_url)
+  .then(() => {
+    console.log('Successful to connected database');
+  }).catch((error) => {
+    console.log(error)
+  })
 
 // Signup route
 app.post('/api/signup', function (req, res) {
@@ -58,4 +70,5 @@ app.delete('/api/blogs/:blogid/comments', function (req, res) {
 // Start the server
 app.listen(8000, function () {
   console.log('Server started on port 3000');
+  console.log(process.env.DB_URL);
 });
