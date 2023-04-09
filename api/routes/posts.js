@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 const Post = require('../models/post');
 const Comment = require('../models/comment');
@@ -16,6 +17,46 @@ router.get('/posts', async (req, res) => {
   }
 });
 
+// 创建博客文章
+router.post('/posts', authMiddleware, async (req, res) => {
+  try {
+    const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      author: req.user._id,
+      publish_time: new Date(),
+      tags: req.body.tags
+    });
+    console.log(req.body.title, req.body.content, req.user._id, new Date(), req.body.tags);
+    const savedPost = await post.save();
+    res.json(savedPost);
+  } catch (error) {
+    console.error("error:"+error);
+   
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+//删除博客
+router.delete('/posts/:id', authMiddleware, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id).exec();
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    if (post.author.toString() !== req.user._id.toString()) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    await Comment.deleteMany({ post: post._id }).exec();
+    await post.deleteOne();
+    res.json({ message: 'Post deleted' });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
 // 查询指定博客文章的评论
 router.get('/posts/:postId/comments', async (req, res) => {
   try {
@@ -30,23 +71,25 @@ router.get('/posts/:postId/comments', async (req, res) => {
 // 新增评论
 router.post('/comments', authMiddleware, async (req, res) => {
   try {
-    const post = await Post.findById(req.body.postId).exec();
+    const post = await Post.findById(req.body.post_id).exec();
     if (!post) {
       return res.status(400).json({ message: 'Post not found' });
     }
+    const userid = new mongoose.Types.ObjectId(req.user._id);
+    const postid = new mongoose.Types.ObjectId(post._id);
+    console.log(userid + postid);
     const comment = new Comment({
       content: req.body.content,
-      author: req.user._id,
-      post: post._id,
-      publish_time: new Date()
+      author: userid,
+      post_id: postid,
+      comment_time: new Date()
     });
     const savedComment = await comment.save();
-    post.comments.push(savedComment._id);
-    await post.save();
+    console.log(savedComment)
     res.json(savedComment);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -61,54 +104,6 @@ router.delete('/comments/:id', authMiddleware, async (req, res) => {
     }
     await comment.remove();
     res.json({ message: 'Comment deleted' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const timestamp = Date.now();
-    cb(null, `${timestamp}-${file.originalname}`);
-  }
-});
-const upload = multer({ storage: storage });
-
-// 创建博客文章
-router.post('/posts', authMiddleware, upload.single('image'), async (req, res) => {
-  try {
-    const post = new Post({
-      title: req.body.title,
-      content: req.body.content,
-      author: req.user._id,
-      publish_time: new Date(),
-      tags: req.body.tags,
-      image: req.file ? req.file.path : undefined
-    });
-    const savedPost = await post.save();
-    res.json(savedPost);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-router.delete('/posts/:id', authMiddleware, async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id).exec();
-    if (!post) {
-      return res.status(400).json({ message: 'Post not found' });
-    }
-    if (post.author.toString() !== req.user._id.toString()) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-    await Comment.deleteMany({ post: post._id }).exec();
-    await post.remove();
-    res.json({ message: 'Post deleted' });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

@@ -15,7 +15,7 @@ router.post('/login', async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: 'Authentication failed2' });
     }
-    const token = jwt.sign({ userId: user._id }, 'secret', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, 'secret', { expiresIn: '24h' });
     res.json({ token: token });
   } catch (error) {
     console.error(error);
@@ -34,7 +34,7 @@ router.post('/signup', async (req, res) => {
       bio: req.body.bio
     });
     const savedUser = await user.save();
-    const token = jwt.sign({ userId: savedUser._id }, 'secret', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: savedUser._id }, 'secret', { expiresIn: '24h' });
     res.json({ token: token });
   } catch (error) {
     console.error(error);
