@@ -9,7 +9,8 @@ const authMiddleware = require('../middlewares/auth');
 // 查询所有博客文章
 router.get('/posts', async (req, res) => {
   try {
-    const posts = await Post.find().populate('author', 'username avatar').exec();
+    // const posts = await Post.find().populate('author', 'username avatar').exec();
+    const posts = await Post.find({}).exec();
     res.json(posts);
   } catch (error) {
     console.error(error);
@@ -19,19 +20,20 @@ router.get('/posts', async (req, res) => {
 
 // 创建博客文章
 router.post('/posts', authMiddleware, async (req, res) => {
+  const authorId = new mongoose.Types.ObjectId(req.user._id); 
   try {
     const post = new Post({
       title: req.body.title,
       content: req.body.content,
-      author: req.user._id,
+      authorId: authorId,
       publish_time: new Date(),
       tags: req.body.tags
     });
-    console.log(req.body.title, req.body.content, req.user._id, new Date(), req.body.tags);
+    console.log(req.body.title, req.body.content, userId, new Date(), req.body.tags);
     const savedPost = await post.save();
     res.json(savedPost);
   } catch (error) {
-    console.error("error:"+error);
+    console.error(error);
    
     res.status(500).send('Internal Server Error');
   }

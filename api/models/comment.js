@@ -5,7 +5,7 @@ const commentSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   post_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Post', required: true },
   comment_time: { type: Date, required: true }
-});
+},{ strict: 'throw' });
 
 const Comment = mongoose.model('Comment', commentSchema);
 
