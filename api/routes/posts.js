@@ -29,7 +29,7 @@ router.post('/posts', authMiddleware, async (req, res) => {
       publish_time: new Date(),
       tags: req.body.tags
     });
-    console.log(req.body.title, req.body.content, userId, new Date(), req.body.tags);
+    console.log(req.body.title, req.body.content, authorId, new Date(), req.body.tags);
     const savedPost = await post.save();
     res.json(savedPost);
   } catch (error) {
@@ -47,7 +47,7 @@ router.delete('/posts/:id', authMiddleware, async (req, res) => {
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
-    if (post.author.toString() !== req.user._id.toString()) {
+    if (post.authorId.toString() !== req.user._id.toString()) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
     await Comment.deleteMany({ post: post._id }).exec();
@@ -98,13 +98,15 @@ router.post('/comments', authMiddleware, async (req, res) => {
 router.delete('/comments/:id', authMiddleware, async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id).exec();
+    console.log(comment);
     if (!comment) {
       return res.status(400).json({ message: 'Comment not found' });
     }
     if (comment.author.toString() !== req.user._id.toString()) {
+      console.log(req.user._id);
       return res.status(401).json({ message: 'Unauthorized' });
     }
-    await comment.remove();
+    await comment.deleteOne();
     res.json({ message: 'Comment deleted' });
   } catch (error) {
     console.error(error);

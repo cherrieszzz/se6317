@@ -22,6 +22,6 @@ app.use('/auth', authRoutes);
 
 // Start the server
 app.listen(8000, function () {
-  console.log('Server started on port 3000');
+  console.log('Server started on port 8000');
   console.log(process.env.DB_URL);
 });
