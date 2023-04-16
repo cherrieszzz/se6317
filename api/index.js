@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config()
 const postRoutes = require('./routes/posts');
-const authRoutes = require('./routes/auth')
+const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
 
 const db_url = process.env.DB_URL;
 
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api', postRoutes);
 app.use('/auth', authRoutes);
+app.use('/admin',adminRoutes);
 
 // Start the server
 app.listen(8000, function () {

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const Admin = require('../models/admin');
 
 // 登录
 router.post('/login', async (req, res) => {
