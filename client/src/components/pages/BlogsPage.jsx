@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout'
 import instance from '../../services/axiosInit';
 import { Link } from 'react-router-dom';
 
-const Blogs = () => {
+const BlogsPage = () => {
     const [blogs, setBlogs] = useState([]);
 
     useEffect(() => {
@@ -22,9 +22,9 @@ const Blogs = () => {
 
     if(blogs.length == 0) {
         return (
-            <>
+            <Layout>
                 loading....
-            </>
+            </Layout>
         )
     }
 
@@ -33,7 +33,7 @@ const Blogs = () => {
             {
                 blogs.map((blog) => (
                     <div key={blog._id}>
-                        <Link to={''}> {blog.title} </Link>
+                        <Link to={'/blogs/'+ blog._id}> {blog.title} </Link>
                     </div>
                 ))
             }
@@ -41,4 +41,4 @@ const Blogs = () => {
     )
 }
 
-export default Blogs
+export default BlogsPage;

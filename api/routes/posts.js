@@ -5,7 +5,18 @@ const Post = require('../models/post');
 const Comment = require('../models/comment');
 const multer = require('multer');
 const authMiddleware = require('../middlewares/auth');
+const User = require('../models/user');
 
+router.get('/users/:id', async (req, res) => {
+  try {
+    // const posts = await Post.find().populate('author', 'username avatar').exec();
+    const user = await User.findById(req.params.id).exec();
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+})
 // 查询所有博客文章
 router.get('/posts', async (req, res) => {
   try {
@@ -17,6 +28,17 @@ router.get('/posts', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+router.get('/posts/:id', async (req, res) => {
+  try {
+    // const posts = await Post.find().populate('author', 'username avatar').exec();
+    const post = await Post.findById(req.params.id).exec();
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+})
 
 // 创建博客文章
 router.post('/posts', authMiddleware, async (req, res) => {
