@@ -16,7 +16,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Authentication failed2' });
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_KEY, { expiresIn: '24h' });
-    res.json({ token: token });
+    res.json({ token: token, username:user.username, email:user.email });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

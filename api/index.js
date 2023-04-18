@@ -6,6 +6,7 @@ require('dotenv').config()
 const postRoutes = require('./routes/posts');
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
+const cors = require('cors');
 
 const db_url = process.env.DB_URL;
 
@@ -16,6 +17,7 @@ mongoose.connect(db_url)
     console.log(error)
 })
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api', postRoutes);
