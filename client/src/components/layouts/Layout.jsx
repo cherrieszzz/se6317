@@ -5,10 +5,9 @@ import { AuthContext } from '../../contexts/authContextProvider';
 const Layout = ({ children }) => {
     const { loggedInUser } = useContext(AuthContext);
     return (
-        <div className='container'>
+        <div>
             <header>
                 <ul>
-                    se6317
                     <li><Link to='/'>首页</Link></li>
                     <li><Link to='/'>关于</Link></li>
                     <li><Link to='/'>生态系统</Link></li>
@@ -18,7 +17,7 @@ const Layout = ({ children }) => {
                 </div>
             </header>
 
-            <div>
+            <div className='container'>
                 {children}
             </div>
             <footer>

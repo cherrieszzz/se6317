@@ -26,12 +26,12 @@ function AuthContextProvider({ children }) {
   const logout = () => {
     sessionStorage.removeItem('user');
     localStorage.removeItem('authorization');
-    navigate('/');
+    window.location.reload();
   }
 
   useEffect(()=> {
     setLoggedInUser(JSON.parse( sessionStorage.getItem('user') ));
-  },[loggedInUser]);
+  },[]);
 
   return (
     <AuthContext.Provider value={{ loggedInUser, login, logout }}>

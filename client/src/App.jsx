@@ -4,6 +4,7 @@ import BlogDetail from './components/pages/BlogDetail';
 import LoginPage from './components/pages/LoginPage';
 import AuthContextProvider from './contexts/authContextProvider';
 import ProfilePage from './components/pages/ProfilePage';
+import AddBlogPage from './components/pages/AddBlogPage';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
           <Route path='/blogs/:id' element={<BlogDetail />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/me' element={<ProfilePage />} />
+          <Route path='/addblog' element={<AddBlogPage />} />
         </Routes>
       </AuthContextProvider>
     </BrowserRouter>

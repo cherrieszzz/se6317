@@ -9,7 +9,7 @@ const LoginPage = () => {
     const {login} = useContext(AuthContext);
 
     function handleSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
         console.log("user: " + username + " password: " + password);
         login(username, password);
         navigate('/me');

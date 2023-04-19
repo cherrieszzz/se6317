@@ -62,10 +62,40 @@ li {
 .container {
   max-width: 800px;
   margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 3px 15px;
+  min-height: 48px;
+  color: rgb(23,156,222);
+}
+
+header a {
+  color: rgb(23,156,222);
+}
+
+.blogcard {
+  margin: 1rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 2px;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  min-width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.addblog_form {
+  display: flex;
+  flex-direction: column;
+  min-height: 70vh;
 }

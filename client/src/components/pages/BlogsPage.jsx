@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Layout from '../layouts/Layout'
 import instance from '../../services/axiosInit';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/authContextProvider';
 
 const BlogsPage = () => {
     const [blogs, setBlogs] = useState([]);
+    const {loggedInUser, logout} = useContext(AuthContext);
 
     useEffect(() => {
         async function fetchData() {
@@ -30,10 +32,14 @@ const BlogsPage = () => {
 
     return (
         <Layout>
+            <div className="blog_list_title">
+                {loggedInUser && <Link to='/addblog'>添加新文章</Link>}
+            </div>
             {
                 blogs.map((blog) => (
-                    <div key={blog._id}>
+                    <div key={blog._id} className='blogcard'>
                         <Link to={'/blogs/'+ blog._id}> {blog.title} </Link>
+                        <div>{blog.publish_time}</div>
                     </div>
                 ))
             }
