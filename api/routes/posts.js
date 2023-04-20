@@ -81,6 +81,21 @@ router.delete('/posts/:id', authMiddleware, async (req, res) => {
   }
 });
 
+router.get('/users/:id/posts', async (req, res) => {
+  try {
+    const posts = await Post.find({authorId:req.params.id}).exec();
+    if(!posts) {
+      res.send({
+        message:'not found'
+      })
+    }
+    res.json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+})
+
 // 查询指定博客文章的评论
 router.get('/posts/:postId/comments', async (req, res) => {
   try {
@@ -135,5 +150,20 @@ router.delete('/comments/:id', authMiddleware, async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+router.get('/users/:id/comments',async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const comments = await Comment.find({author:userId}).exec();
+    console.log(comments);
+    if (!comments) {
+      return res.status(400).json({ message: 'Comment not found' });
+    }
+    res.json(comments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+})
 
 module.exports = router;
