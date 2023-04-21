@@ -21,7 +21,7 @@ router.get('/users/:id', async (req, res) => {
 router.get('/posts', async (req, res) => {
   try {
     // const posts = await Post.find().populate('author', 'username avatar').exec();
-    const posts = await Post.find({}).exec();
+    const posts = await Post.find({}).populate('authorId', 'username avatar').exec();
     res.json(posts);
   } catch (error) {
     console.error(error);
@@ -32,7 +32,7 @@ router.get('/posts', async (req, res) => {
 router.get('/posts/:id', async (req, res) => {
   try {
     // const posts = await Post.find().populate('author', 'username avatar').exec();
-    const post = await Post.findById(req.params.id).exec();
+    const post = await Post.findById(req.params.id).populate('authorId', 'username avatar').exec();
     res.json(post);
   } catch (error) {
     console.error(error);
@@ -154,7 +154,7 @@ router.delete('/comments/:id', authMiddleware, async (req, res) => {
 router.get('/users/:id/comments',async (req, res) => {
   try {
     const userId = req.params.id;
-    const comments = await Comment.find({author:userId}).exec();
+    const comments = await Comment.find({author:userId}).populate('author', 'username avatar').exec();
     console.log(comments);
     if (!comments) {
       return res.status(400).json({ message: 'Comment not found' });
