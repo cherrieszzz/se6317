@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState , useContext} from 'react';
+import React, { Component, useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import instance from '../../services/axiosInit';
 import Layout from '../layouts/Layout';
@@ -6,7 +6,7 @@ import { AuthContext } from '../../contexts/authContextProvider';
 
 const Comments = ({ blogId }) => {
     const [comments, setComments] = useState([]);
-  
+
 
     useEffect(() => {
         function getComments() {
@@ -47,8 +47,8 @@ const AddComment = ({ blogId }) => {
     const handleComment = (e) => {
         e.preventDefault();
         instance.post('api/comments', {
-            post_id:blogId,
-            content:comment
+            post_id: blogId,
+            content: comment
         }).then((res) => {
             console.log(res.data);
             window.location.reload();
@@ -67,7 +67,7 @@ const AddComment = ({ blogId }) => {
 }
 
 const BlogDetail = () => {
-    const {loggedInUser} = useContext(AuthContext);
+    const { loggedInUser } = useContext(AuthContext);
     const { id: blogId } = useParams();
     const [blog, setBlog] = useState(null);
 
@@ -97,8 +97,8 @@ const BlogDetail = () => {
             <p>作者：{blog.authorId.username} 类型:{blog.tags}</p>
             <p> {blog.content}</p>
             <p>评论：</p>
-            {loggedInUser ? <AddComment blogId={blog._id} /> :<Link to={'/login'}>你需要登录才能发表评论</Link>}
-            
+            {loggedInUser ? <AddComment blogId={blog._id} /> : <Link to={'/login'}>你需要登录才能发表评论</Link>}
+
             <Comments blogId={blog._id} />
         </Layout>
     )

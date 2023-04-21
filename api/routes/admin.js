@@ -40,6 +40,15 @@ router.delete('/posts/:id',adminMiddleware, async (req, res) => {
       }
 })
 
+router.get('/comments', adminMiddleware, async (req, res) => {
+  try {
+    const comments = await Comment.find({}).exec();
+    res.json(comments);
+  } catch (error) {
+    res.status(500).send('Internal Server Error');
+  }
+})
+
 router.delete('/comments/:id', adminMiddleware, async (req, res) => {
     try {
       const comment = await Comment.findById(req.params.id).exec();

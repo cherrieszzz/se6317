@@ -6,6 +6,8 @@ import AuthContextProvider from './contexts/authContextProvider';
 import ProfilePage from './components/pages/ProfilePage';
 import AddBlogPage from './components/pages/AddBlogPage';
 import SignUpPage from './components/pages/SignUpPage';
+import AdminLogin from './components/pages/AdminLogin';
+import AdminPage from './components/pages/AdminPage';
 
 function App() {
 
@@ -19,6 +21,8 @@ function App() {
           <Route path='/me' element={<ProfilePage />} />
           <Route path='/addblog' element={<AddBlogPage />} />
           <Route path='/signup' element={<SignUpPage />} />
+          <Route path='/admin/login' element={<AdminLogin />} />
+          <Route path='/admin' element={<AdminPage />} />
         </Routes>
       </AuthContextProvider>
     </BrowserRouter>

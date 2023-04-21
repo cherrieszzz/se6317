@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const login = (username, password) => {
@@ -19,6 +20,24 @@ function AuthContextProvider({ children }) {
         sessionStorage.setItem('user', JSON.stringify(response.data));
         setLoggedInUser(JSON.parse(sessionStorage.getItem('user')));
         localStorage.setItem('authorization', response.data.token);
+      }).catch(err => console.log(err));
+
+  };
+
+  const adminLogin = (username, password) => {
+    const loginData = {
+      username: username,
+      password: password
+    }
+
+    instance.post('/admin/login', loginData).
+      then((response) => {
+        console.log(response.data);
+        if(response.status == 401) {
+           return;
+        }
+        localStorage.setItem('authorization', response.data.token);
+        setIsAdmin(true);
       }).catch(err => console.log(err));
 
   };
@@ -50,7 +69,7 @@ function AuthContextProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loggedInUser, login, logout, signup }}>
+    <AuthContext.Provider value={{ loggedInUser, login, logout, signup, adminLogin ,isAdmin}}>
       {children}
     </AuthContext.Provider>
   );

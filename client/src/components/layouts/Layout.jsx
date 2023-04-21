@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
                     <li><Link to='/'>生态系统</Link></li>
                 </ul>
                 <div>
-                    {loggedInUser ? <>欢迎！<Link to={'/me'}>{loggedInUser.username}</Link> </> : <> <Link to='/login'>去登陆</Link></>}
+                    {loggedInUser ? <><Link to={'/me'}>{loggedInUser.username}</Link> </> : <> <Link to='/login'>登陆/注册</Link></>}
                 </div>
             </header>
 
