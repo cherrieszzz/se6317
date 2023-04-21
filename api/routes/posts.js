@@ -154,7 +154,7 @@ router.delete('/comments/:id', authMiddleware, async (req, res) => {
 router.get('/users/:id/comments',async (req, res) => {
   try {
     const userId = req.params.id;
-    const comments = await Comment.find({author:userId}).populate('author', 'username avatar').exec();
+    const comments = await Comment.find({author:userId}).populate('post_id', 'title content').exec();
     console.log(comments);
     if (!comments) {
       return res.status(400).json({ message: 'Comment not found' });
