@@ -30,10 +30,11 @@ const Comments = ({ blogId }) => {
         <>{
             comments.map((comment) => {
                 return (
-                    <>
-                        {comment.content}
-                        {comment.comment_time}
-                    </>
+                    <div>
+                        {comment.author.username} : {comment.content}
+                        
+
+                    </div>
                 )
             })
         }</>
@@ -68,13 +69,13 @@ const AddComment = ({ blogId }) => {
 const BlogDetail = () => {
     const { id: blogId } = useParams();
     const [blog, setBlog] = useState(null);
-    const [user, setUser] = useState(null);
 
     useEffect(() => {
         function getData() {
             instance.get(`/api/posts/${blogId}`)
                 .then((response) => {
                     setBlog(response.data);
+                    console.log(response.data);
                 })
                 .catch(err => {
                     console.log(err);
@@ -92,7 +93,7 @@ const BlogDetail = () => {
     return (
         <Layout>
             <h2>{blog.title}</h2>
-            <p>作者ID：{blog.authorId} 类型:{blog.tags}</p>
+            <p>作者：{blog.authorId.username} 类型:{blog.tags}</p>
             <p> {blog.content}</p>
             <p>评论：</p>
             <AddComment blogId={blog._id} />

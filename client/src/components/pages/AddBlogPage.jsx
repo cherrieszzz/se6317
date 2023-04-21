@@ -7,27 +7,20 @@ import instance from '../../services/axiosInit';
 export default function AddBlogPage() {
     const navigate = useNavigate();
     const {loggedInUser} = useContext(AuthContext);
-    const {err, setErr} = useState(false);
+    const [err, setErr] = useState(false);
     const [title, setTitle] = useState(null);
     const [content, setContent] = useState(null);
     const [tags, setTags] = useState(null);
-    const token = localStorage.getItem('authorization');
 
     function handleAddBlog(e) {
         e.preventDefault();
-        console.log(token);
         instance.post('/api/posts', {
             title:title,
             content:content,
             tags:tags
-        }, {
-            header: {
-                authorization: `Bearer ${token}`
-            }
         }).then((res) => {
             console.log(res.data);
-            navigate('/');
-            
+            navigate('/');   
         }).catch(err => {
            console.log(err);
            setErr(true);

@@ -4,8 +4,19 @@ import Layout from '../layouts/Layout';
 import { Link } from 'react-router-dom';
 import instance from '../../services/axiosInit';
 
-const UserBlogs = ({userId}) => {
+const UserBlogs = ({ userId }) => {
     const [blogs, setBlogs] = useState([]);
+
+    const handleDelete = (deleteId) => {
+        instance.delete(`/api/posts/${deleteId}`)
+        .then((res) => {
+            console.log(res.data);
+            window.location.reload();
+        }).catch((err) => {
+            console.log(err);
+        });
+        
+    }
 
     useEffect(() => {
         function fetchData() {
@@ -16,18 +27,38 @@ const UserBlogs = ({userId}) => {
             })
         }
         fetchData();
-    },[]);
+    }, []);
 
     return (
         <div>
             我的博客:
-            {blogs && blogs.map((blog) => <div key={blog._id}>{blog.title} </div>)}
+            {
+                blogs &&
+                blogs.map((blog) =>
+                    <div key={blog._id}>
+                        <Link to={'/blogs/' + blog._id} >
+                            {blog.title}
+                        </Link>
+                        <button onClick={(e) => handleDelete(blog._id)}>删除此文章</button>
+                    </div>
+                )}
+
         </div>
     )
 }
 
-const UserComments = ({userId}) => {
+const UserComments = ({ userId }) => {
     const [comments, setComments] = useState([]);
+
+    const handleDelete = (deleteId) => {
+        instance.delete(`/api/comments/${deleteId}`)
+            .then((res) => {
+                console.log(res.data);
+            }).catch((err) => {
+                console.log(err);
+            });
+        window.location.reload();
+    }
 
     useEffect(() => {
         function fetchData() {
@@ -38,19 +69,30 @@ const UserComments = ({userId}) => {
             })
         }
         fetchData();
-    },[]);
+    }, []);
 
     return (
         <div>
-             我的评论：
-            {comments && comments.map((comment) => <div key={comment._id}>{comment.content}</div>)}
+            我的评论：
+            {
+                comments &&
+                comments.map((comment) => {
+                    return (
+                        <div key={comment._id}>
+                            <p>{comment.content} </p>
+                            来自于 <Link to={'/blogs/' + comment.post_id._id}>{comment.post_id.title}</Link>
+                            <button onClick={(e) => handleDelete(comment._id)}>删除此评论</button>
+                        </div>
+                    )
+                })
+            }
         </div>
     )
 }
 
 const ProfilePage = () => {
     const { loggedInUser, logout } = useContext(AuthContext);
-   
+
     console.log(loggedInUser);
 
     if (!loggedInUser) {
@@ -67,7 +109,7 @@ const ProfilePage = () => {
             欢迎！{loggedInUser.username} <button onClick={logout}>登出</button>
             <UserBlogs userId={loggedInUser.id} />
             <UserComments userId={loggedInUser.id} />
-           
+
         </Layout>
     )
 }
