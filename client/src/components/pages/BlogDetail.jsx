@@ -1,10 +1,12 @@
-import React, { Component, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { Component, useEffect, useState , useContext} from 'react';
+import { Link, useParams } from 'react-router-dom';
 import instance from '../../services/axiosInit';
 import Layout from '../layouts/Layout';
+import { AuthContext } from '../../contexts/authContextProvider';
 
 const Comments = ({ blogId }) => {
     const [comments, setComments] = useState([]);
+  
 
     useEffect(() => {
         function getComments() {
@@ -32,8 +34,6 @@ const Comments = ({ blogId }) => {
                 return (
                     <div>
                         {comment.author.username} : {comment.content}
-                        
-
                     </div>
                 )
             })
@@ -67,6 +67,7 @@ const AddComment = ({ blogId }) => {
 }
 
 const BlogDetail = () => {
+    const {loggedInUser} = useContext(AuthContext);
     const { id: blogId } = useParams();
     const [blog, setBlog] = useState(null);
 
@@ -96,7 +97,8 @@ const BlogDetail = () => {
             <p>作者：{blog.authorId.username} 类型:{blog.tags}</p>
             <p> {blog.content}</p>
             <p>评论：</p>
-            <AddComment blogId={blog._id} />
+            {loggedInUser ? <AddComment blogId={blog._id} /> :<Link to={'/login'}>你需要登录才能发表评论</Link>}
+            
             <Comments blogId={blog._id} />
         </Layout>
     )

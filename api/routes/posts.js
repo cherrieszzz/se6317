@@ -81,6 +81,8 @@ router.delete('/posts/:id', authMiddleware, async (req, res) => {
   }
 });
 
+
+//查询指定用户的博客
 router.get('/users/:id/posts', async (req, res) => {
   try {
     const posts = await Post.find({authorId:req.params.id}).exec();
@@ -151,7 +153,7 @@ router.delete('/comments/:id', authMiddleware, async (req, res) => {
   }
 });
 
-router.get('/users/:id/comments',async (req, res) => {
+router.get('/users/:id/comments', async (req, res) => {
   try {
     const userId = req.params.id;
     const comments = await Comment.find({author:userId}).populate('post_id', 'title content').exec();

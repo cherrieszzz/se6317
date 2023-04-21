@@ -5,6 +5,7 @@ import LoginPage from './components/pages/LoginPage';
 import AuthContextProvider from './contexts/authContextProvider';
 import ProfilePage from './components/pages/ProfilePage';
 import AddBlogPage from './components/pages/AddBlogPage';
+import SignUpPage from './components/pages/SignUpPage';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/me' element={<ProfilePage />} />
           <Route path='/addblog' element={<AddBlogPage />} />
+          <Route path='/signup' element={<SignUpPage />} />
         </Routes>
       </AuthContextProvider>
     </BrowserRouter>

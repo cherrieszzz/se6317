@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../contexts/authContextProvider';
-import { Navigate, useNavigate, Link } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
+const SignUpPage = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
-    const {login} = useContext(AuthContext);
+    const [email, setEmail] = useState(null);
+    const { loggedInUser ,signup} = useContext(AuthContext);
 
     function handleSubmit(e) {
         e.preventDefault();
         console.log("user: " + username + " password: " + password);
-        login(username, password);
+        signup(username, email,  password);
         navigate(-1);
     }
 
@@ -25,16 +26,24 @@ const LoginPage = () => {
         console.log(password);
     }
 
+    if(loggedInUser) {
+        return (
+            <div>请先登出</div>
+        )
+    }
+
     return (
         <form action="" onSubmit={(e) => handleSubmit(e)} className='container'>
             <label htmlFor="">用户名</label>
             <input type="text" name="" id="usernameInput" onChange={(e) => handleUsername(e)}/>
+            <label htmlFor="">邮箱</label>
+            <input type="email" name="" id="" onChange={e => setEmail(e.target.value)}/>
             <label htmlFor="">密码</label>
             <input type="password" name="" id="passwordInput" onChange={(e) => handlePassword(e)}/>
-            <Link to={'/signup'}>没有用户？请注册</Link>
-            <button type="submit">登录</button>
+          
+            <button type="submit">注册</button>
         </form>
     )
 }
 
-export default LoginPage;
+export default SignUpPage;

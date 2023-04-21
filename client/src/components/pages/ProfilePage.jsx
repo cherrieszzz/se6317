@@ -31,11 +31,11 @@ const UserBlogs = ({ userId }) => {
 
     return (
         <div>
-            我的博客:
+            <h2>我的博客:</h2>
             {
                 blogs &&
                 blogs.map((blog) =>
-                    <div key={blog._id}>
+                    <div key={blog._id} className='profile_blogs_list'>
                         <Link to={'/blogs/' + blog._id} >
                             {blog.title}
                         </Link>
@@ -73,15 +73,15 @@ const UserComments = ({ userId }) => {
 
     return (
         <div>
-            我的评论：
+            <h2>我的评论：</h2> 
             {
                 comments &&
                 comments.map((comment) => {
                     return (
-                        <div key={comment._id}>
-                            <p>{comment.content} </p>
-                            来自于 <Link to={'/blogs/' + comment.post_id._id}>{comment.post_id.title}</Link>
-                            <button onClick={(e) => handleDelete(comment._id)}>删除此评论</button>
+                        <div key={comment._id} className='profile_comments_list'>
+                            <div><p>{comment.content} </p>
+                            来自于 <Link to={'/blogs/' + comment.post_id._id}>{comment.post_id.title}</Link></div>
+                            <div> <button onClick={(e) => handleDelete(comment._id)}>删除此评论</button></div>
                         </div>
                     )
                 })

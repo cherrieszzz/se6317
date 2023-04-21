@@ -8,20 +8,36 @@ function AuthContextProvider({ children }) {
   const navigate = useNavigate();
 
   const login = (username, password) => {
-        const loginData = {
-            username : username,
-            password : password
-        }
+    const loginData = {
+      username: username,
+      password: password
+    }
 
-        instance.post('/auth/login', loginData).
-            then((response) => {
-                console.log(response.data);
-                sessionStorage.setItem('user', JSON.stringify(response.data) );
-                setLoggedInUser(JSON.parse( sessionStorage.getItem('user') ));
-                localStorage.setItem('authorization', response.data.token);
-            }).catch(err => console.log(err));
-    
+    instance.post('/auth/login', loginData).
+      then((response) => {
+        console.log(response.data);
+        sessionStorage.setItem('user', JSON.stringify(response.data));
+        setLoggedInUser(JSON.parse(sessionStorage.getItem('user')));
+        localStorage.setItem('authorization', response.data.token);
+      }).catch(err => console.log(err));
+
   };
+
+  const signup = (username, email, password) => {
+    const loginData = {
+      username: username,
+      email:email,
+      password: password
+    }
+
+    instance.post('/auth/signup', loginData).
+      then((response) => {
+        console.log(response.data);
+        sessionStorage.setItem('user', JSON.stringify(response.data));
+        setLoggedInUser(JSON.parse(sessionStorage.getItem('user')));
+        localStorage.setItem('authorization', response.data.token);
+      }).catch(err => console.log(err));
+  }
 
   const logout = () => {
     sessionStorage.removeItem('user');
@@ -29,12 +45,12 @@ function AuthContextProvider({ children }) {
     window.location.reload();
   }
 
-  useEffect(()=> {
-    setLoggedInUser(JSON.parse( sessionStorage.getItem('user') ));
-  },[]);
+  useEffect(() => {
+    setLoggedInUser(JSON.parse(sessionStorage.getItem('user')));
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ loggedInUser, login, logout }}>
+    <AuthContext.Provider value={{ loggedInUser, login, logout, signup }}>
       {children}
     </AuthContext.Provider>
   );
