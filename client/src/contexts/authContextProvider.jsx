@@ -5,10 +5,13 @@ export const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [loggedInAdmin, setLoggedInAdmin] = useState(null);
   const navigate = useNavigate();
 
   const login = (username, password) => {
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('adminUser');
+    localStorage.removeItem('authorization');
     const loginData = {
       username: username,
       password: password
@@ -25,6 +28,9 @@ function AuthContextProvider({ children }) {
   };
 
   const adminLogin = (username, password) => {
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('adminUser');
+    localStorage.removeItem('authorization');
     const loginData = {
       username: username,
       password: password
@@ -37,7 +43,8 @@ function AuthContextProvider({ children }) {
            return;
         }
         localStorage.setItem('authorization', response.data.token);
-        setIsAdmin(true);
+        sessionStorage.setItem('adminUser', JSON.stringify(response.data));
+        setLoggedInAdmin(JSON.parse(sessionStorage.getItem('adminUser')));
       }).catch(err => console.log(err));
 
   };
@@ -66,10 +73,11 @@ function AuthContextProvider({ children }) {
 
   useEffect(() => {
     setLoggedInUser(JSON.parse(sessionStorage.getItem('user')));
+    setLoggedInAdmin(JSON.parse(sessionStorage.getItem('adminUser')));
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loggedInUser, login, logout, signup, adminLogin ,isAdmin}}>
+    <AuthContext.Provider value={{ loggedInUser, login, logout, signup, adminLogin ,loggedInAdmin}}>
       {children}
     </AuthContext.Provider>
   );

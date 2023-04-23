@@ -6,7 +6,7 @@ import instance from '../../services/axiosInit';
 
 const AdminLogin = () => {
 
-    const {adminLogin, isAdmin} = useContext(AuthContext);
+    const {adminLogin, loggedInAdmin} = useContext(AuthContext);
 
     const navigate = useNavigate();
     const [username, setUsername] = useState(null);
@@ -29,7 +29,7 @@ const AdminLogin = () => {
         console.log(password);
     }
 
-    if(isAdmin) {
+    if(loggedInAdmin) {
         navigate('/admin');
     }
 

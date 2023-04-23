@@ -6,13 +6,12 @@ import instance from '../../services/axiosInit';
 
 const AdminPage = () => {
     const navigate = useNavigate();
-    const {isAdmin} = useContext(AuthContext);
+    const {loggedInAdmin} = useContext(AuthContext);
     const [blogs, setBlogs] = useState([]);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([])
-    console.log(isAdmin);
 
-    if(isAdmin == false) {
+    if(!loggedInAdmin) {
         return  <Navigate replace to="/admin/login" />;
     }
 
