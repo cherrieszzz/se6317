@@ -1,6 +1,14 @@
 # SE6317
 
 ## Backend 启动测试
+
+### 配置
+```
+mv .env.example .env
+```
+
+配置自己的MongoDB数据库和和JWT密钥
+
 安装依赖(请先安装node.js ):
 ```
 npm install
