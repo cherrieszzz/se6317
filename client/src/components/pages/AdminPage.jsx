@@ -1,18 +1,18 @@
 import React, { Component, useContext, useEffect, useState } from 'react';
-import { useNavigate , Navigate} from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import Layout from '../layouts/Layout';
 import { AuthContext } from '../../contexts/authContextProvider';
 import instance from '../../services/axiosInit';
 
 const AdminPage = () => {
     const navigate = useNavigate();
-    const {loggedInAdmin} = useContext(AuthContext);
+    const { loggedInAdmin } = useContext(AuthContext);
     const [blogs, setBlogs] = useState([]);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([])
 
-    if(!loggedInAdmin) {
-        return  <Navigate replace to="/admin/login" />;
+    if (!loggedInAdmin) {
+        return <Navigate replace to="/admin/login" />;
     }
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const AdminPage = () => {
         }).catch((err) => {
             console.log(err);
         })
-    },[])
+    }, [])
 
     useEffect(() => {
         instance.get('/api/posts').then((res) => {
@@ -31,7 +31,7 @@ const AdminPage = () => {
         }).catch((err) => {
             console.log(err);
         })
-    },[])
+    }, [])
 
     const handleDelete = (deleteId) => {
         instance.delete(`/admin/posts/${deleteId}`).then((res) => {
@@ -52,27 +52,32 @@ const AdminPage = () => {
     }
 
     return (
-        <div>
-            <h2>所有博客</h2>
-            {blogs.map((blog) => {
-                return (
-                    <div key={blog._id}>
-                        {blog.title}
-                        <button onClick={e => handleDelete(blog._id)}>删除</button>
-                    </div>
-                )
-            })}
-            <h2>所有评论</h2>
-            {
-                comments.map((comment) => {
+        <div className='flex'>
+            <div>
+                <h2>所有博客</h2>
+                {blogs.map((blog) => {
                     return (
-                        <div key={comment._id}>
-                            {comment.content} {comment.author.username}
-                            <button onClick={e => handleDeleteComment(comment._id)}>删除</button> 
+                        <div key={blog._id}>
+                            {blog.title}
+                            <button onClick={e => handleDelete(blog._id)}>删除</button>
                         </div>
                     )
-                })
-            }
+                })}
+            </div>
+            <div>
+                <h2>所有评论</h2>
+                {
+                    comments.map((comment) => {
+                        return (
+                            <div key={comment._id}>
+                                {comment.content} {comment.author.username}
+                                <button onClick={e => handleDeleteComment(comment._id)}>删除</button>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+
         </div>
     )
 }

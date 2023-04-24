@@ -32,7 +32,7 @@ const Comments = ({ blogId }) => {
         <>{
             comments.map((comment) => {
                 return (
-                    <div>
+                    <div className='p-3 my-3'>
                         {comment.author.username} : {comment.content}
                     </div>
                 )
@@ -59,7 +59,7 @@ const AddComment = ({ blogId }) => {
     return (
         <>
             <form onSubmit={handleComment}>
-                <textarea name="" id="" cols="30" rows="10" onChange={e => setComment(e.target.value)}></textarea>
+                <textarea name="" id="" className='w-100' onChange={e => setComment(e.target.value)}></textarea>
                 <button type="submit">提交</button>
             </form>
         </>
@@ -93,13 +93,19 @@ const BlogDetail = () => {
 
     return (
         <Layout>
-            <h2>{blog.title}</h2>
-            <p>作者：{blog.authorId.username} 类型:{blog.tags}</p>
-            <p> {blog.content}</p>
-            <p>评论：</p>
-            {loggedInUser ? <AddComment blogId={blog._id} /> : <Link to={'/login'}>你需要登录才能发表评论</Link>}
+            <h2 className='text-lg mb-9 italic'>{blog.title}</h2>
+            <p className='flex justify-between mb-5'>
+                <div>作者：{blog.authorId.username}</div>
+                <div> 类型:{blog.tags}</div>
+            </p>
+            <p className='leading-loose'> {blog.content}</p>
+            <div className='my-4 shadow-lg p-5'>
+                <p>评论：</p>
+                {loggedInUser ? <AddComment blogId={blog._id} /> : <Link to={'/login'}>你需要登录才能发表评论</Link>}
 
-            <Comments blogId={blog._id} />
+                <Comments blogId={blog._id} />
+            </div>
+
         </Layout>
     )
 }

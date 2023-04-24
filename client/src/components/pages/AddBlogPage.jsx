@@ -40,13 +40,13 @@ export default function AddBlogPage() {
             <h2>撰写新文章</h2>
             <form action="" onSubmit={handleAddBlog} className='addblog_form'>
                 <label htmlFor="">标题</label>
-                <input type="text" name="title" id="" onChange={e => setTitle(e.target.value)}/>
+                <input className='placeholder-red-300' type="text" name="title" id="" onChange={e => setTitle(e.target.value)}/>
                 <br />
                 <label htmlFor="">正文</label>
-                <textarea  onChange={e => setContent(e.target.value)} ></textarea>
+                <textarea className='placeholder-red-300' onChange={e => setContent(e.target.value)} ></textarea>
                 <label htmlFor="">标签</label>
                 <input type="text" name="" id="" onChange={e => setTags(e.target.value)} />
-                <button type="submit">添加</button>
+                <button type="submit" className='btn'>添加</button>
             </form>
         </Layout>
     )

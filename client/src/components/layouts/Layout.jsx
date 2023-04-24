@@ -6,21 +6,21 @@ const Layout = ({ children }) => {
     const { loggedInUser } = useContext(AuthContext);
     return (
         <div>
-            <header>
-                <ul>
-                    <li><Link to='/'>首页</Link></li>
-                    <li><Link to='/'>关于</Link></li>
-                    <li><Link to='/'>生态系统</Link></li>
+            <header className='w-screen shadow-lg flex justify-between px-5 py-3 bg-blue text-white'>
+                <ul className='flex'>
+                    <li className='mx-3'><Link to='/'>首页</Link></li>
+                    <li className='mx-3'><Link to='/'>关于</Link></li>
+                    <li className='mx-3'><Link to='/'>生态系统</Link></li>
                 </ul>
                 <div>
                     {loggedInUser ? <><Link to={'/me'}>{loggedInUser.username}</Link> </> : <> <Link to='/login'>登陆/注册</Link></>}
                 </div>
             </header>
 
-            <div className='container'>
+            <div className='my-5 mx-10'>
                 {children}
             </div>
-            <footer>
+            <footer className='flex justify-center'>
                 2023@Copyright powered by vite
             </footer>
         </div>
