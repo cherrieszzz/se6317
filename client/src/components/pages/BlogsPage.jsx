@@ -34,11 +34,13 @@ const BlogsPage = () => {
         <Layout>
             <div>
                 <div>
-                    {loggedInUser && <Link to='/addblog' className='btn px-5'>添加新文章+</Link>}
+                    {loggedInUser && <Link to='/addblog' className='btn px-5'>
+                    <svg class='icon' aria-hidden="true"> <use xlinkHref="#icon-jiahao"></use> </svg>   
+                    </Link>}
                 </div>
                 {
                     blogs.map((blog) => (
-                        <div key={blog._id} className='flex justify-between my-5 shadow-md p-3'>
+                        <div key={blog._id} className='flex justify-between my-3 shadow-md p-3 border-2 rounded-lg'>
                             <Link to={'/blogs/' + blog._id}> {blog.title} </Link>
                             <div>{blog.publish_time}</div>
                         </div>

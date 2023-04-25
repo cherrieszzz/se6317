@@ -2,7 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'myfont';
+  src: url(./fonts/Source_Han_Serif_SC_Light_Light.otf);
+}
+
 * {
   box-sizing: border-box;
+  font-family: 'myfont';
+}
+
+.icon {
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+  color: #333;
 }
 

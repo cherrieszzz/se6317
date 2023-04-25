@@ -32,8 +32,13 @@ const Comments = ({ blogId }) => {
         <>{
             comments.map((comment) => {
                 return (
-                    <div className='p-3 my-3'>
-                        {comment.author.username} : {comment.content}
+                    <div className='my-3 border-2 rounded-lg'>
+                        <div className='bg-white-100 bg-gray-100 p-3'>
+                        {comment.author.username} 
+                        </div>
+                        <div className='bg-white-200 p-3'>
+                        {comment.content}
+                        </div> 
                     </div>
                 )
             })
@@ -59,8 +64,8 @@ const AddComment = ({ blogId }) => {
     return (
         <>
             <form onSubmit={handleComment}>
-                <textarea name="" id="" className='w-100' onChange={e => setComment(e.target.value)}></textarea>
-                <button type="submit">提交</button>
+                <textarea name="" id="" className='w-100 w-full border-2 rounded-lg p-3' onChange={e => setComment(e.target.value)}></textarea>
+                <button type="submit" className='btn border-2 p-1 rounded-lg bg-purple-600 text-white'>提交</button>
             </form>
         </>
     )
@@ -93,14 +98,14 @@ const BlogDetail = () => {
 
     return (
         <Layout>
-            <h2 className='text-lg mb-9 italic'>{blog.title}</h2>
+            <h2 className='text-3xl mb-9 italic'>{blog.title}</h2>
             <p className='flex justify-between mb-5'>
                 <div>作者：{blog.authorId.username}</div>
                 <div> 类型:{blog.tags}</div>
             </p>
-            <p className='leading-loose'> {blog.content}</p>
-            <div className='my-4 shadow-lg p-5'>
-                <p>评论：</p>
+            <p className='leading-loose border-2 p-3 rounded-lg'> {blog.content}</p>
+            <div className='my-4 p-5'>
+                <p className='text-2xl'>评论：</p>
                 {loggedInUser ? <AddComment blogId={blog._id} /> : <Link to={'/login'}>你需要登录才能发表评论</Link>}
 
                 <Comments blogId={blog._id} />

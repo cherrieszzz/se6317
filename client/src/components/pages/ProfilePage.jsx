@@ -41,7 +41,9 @@ const UserBlogs = ({ userId }) => {
                             <Link to={'/blogs/' + blog._id} className='' >
                                 {blog.title}
                             </Link>
-                            <button onClick={(e) => handleDelete(blog._id)}>x</button>
+                            <button onClick={(e) => handleDelete(blog._id)}>
+                                <svg class='icon' aria-hidden="true"> <use xlinkHref="#icon-shanchu"></use> </svg>
+                            </button>
                         </div>
                     )}
             </div>
@@ -81,13 +83,17 @@ const UserComments = ({ userId }) => {
                     comments &&
                     comments.map((comment) => {
                         return (
-                            <div key={comment._id} className='my-6 shadow-md p-3 flex justify-between'>
+                            <div key={comment._id} className='my-6 shadow-md flex justify-between'>
                                 <div>
                                     <p>{comment.content} </p>
-                                    来自于 <Link to={'/blogs/' + comment.post_id._id}>{comment.post_id.title}</Link>
+                                    <div className='p-3 bg-gray-100 w-full'>
+                                        来自于 <Link to={'/blogs/' + comment.post_id._id}>{comment.post_id.title}</Link>
+                                    </div>
                                 </div>
-                                <div> 
-                                    <button onClick={(e) => handleDelete(comment._id)}>x</button>
+                                <div>
+                                    <button onClick={(e) => handleDelete(comment._id)}>
+                                        <svg class='icon' aria-hidden="true"> <use xlinkHref="#icon-shanchu"></use> </svg>
+                                    </button>
                                 </div>
                             </div>
                         )
@@ -114,14 +120,24 @@ const ProfilePage = () => {
 
     return (
         <Layout>
-            <div className='flex justify-center'>
-                欢迎！{loggedInUser.username} <button onClick={logout} className='px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2'>登出</button>
+            <div className='flex justify-between'>
+                <div className='m-6'>
+                    <div className='text-4xl text-purple-600 py-5'>
+                        {loggedInUser.username}
+                    </div>
+
+                    <div>
+                        <button onClick={logout} className='px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2'>登出</button>
+                    </div>
+
+                </div>
+
+                <div className=' mt-6'>
+                    <UserBlogs userId={loggedInUser.id} />
+                    <UserComments userId={loggedInUser.id} />
+                </div>
             </div>
 
-            <div className='flex justify-around'>
-                <UserBlogs userId={loggedInUser.id} />
-                <UserComments userId={loggedInUser.id} />
-            </div>
 
 
         </Layout>

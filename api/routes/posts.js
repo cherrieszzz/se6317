@@ -20,7 +20,6 @@ router.get('/users/:id', async (req, res) => {
 // 查询所有博客文章
 router.get('/posts', async (req, res) => {
   try {
-    // const posts = await Post.find().populate('author', 'username avatar').exec();
     const posts = await Post.find({}).populate('authorId', 'username avatar').exec();
     res.json(posts);
   } catch (error) {
@@ -72,7 +71,7 @@ router.delete('/posts/:id', authMiddleware, async (req, res) => {
     if (post.authorId.toString() !== req.user._id.toString()) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
-    await Comment.deleteMany({ post: post._id }).exec();
+    await Comment.deleteMany({ post_id: post._id }).exec();
     await post.deleteOne();
     res.json({ message: 'Post deleted' });
   } catch (error) {

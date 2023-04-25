@@ -11,7 +11,7 @@ function AuthContextProvider({ children }) {
   const login = (username, password) => {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('adminUser');
-    localStorage.removeItem('authorization');
+    sessionStorage.removeItem('authorization');
     const loginData = {
       username: username,
       password: password
@@ -22,7 +22,8 @@ function AuthContextProvider({ children }) {
         console.log(response.data);
         sessionStorage.setItem('user', JSON.stringify(response.data));
         setLoggedInUser(JSON.parse(sessionStorage.getItem('user')));
-        localStorage.setItem('authorization', response.data.token);
+        sessionStorage.setItem('authorization', response.data.token);
+        window.location.reload();
       }).catch(err => console.log(err));
 
   };
@@ -30,7 +31,7 @@ function AuthContextProvider({ children }) {
   const adminLogin = (username, password) => {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('adminUser');
-    localStorage.removeItem('authorization');
+    sessionStorage.removeItem('authorization');
     const loginData = {
       username: username,
       password: password
@@ -42,7 +43,7 @@ function AuthContextProvider({ children }) {
         if(response.status == 401) {
            return;
         }
-        localStorage.setItem('authorization', response.data.token);
+        sessionStorage.setItem('authorization', response.data.token);
         sessionStorage.setItem('adminUser', JSON.stringify(response.data));
         setLoggedInAdmin(JSON.parse(sessionStorage.getItem('adminUser')));
       }).catch(err => console.log(err));
@@ -61,13 +62,13 @@ function AuthContextProvider({ children }) {
         console.log(response.data);
         sessionStorage.setItem('user', JSON.stringify(response.data));
         setLoggedInUser(JSON.parse(sessionStorage.getItem('user')));
-        localStorage.setItem('authorization', response.data.token);
+        sessionStorage.setItem('authorization', response.data.token);
       }).catch(err => console.log(err));
   }
 
   const logout = () => {
     sessionStorage.removeItem('user');
-    localStorage.removeItem('authorization');
+    sessionStorage.removeItem('authorization');
     window.location.reload();
   }
 
