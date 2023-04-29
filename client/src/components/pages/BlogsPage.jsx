@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout'
 import instance from '../../services/axiosInit';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/authContextProvider';
+import ReactLoading from 'react-loading';
 
 const BlogsPage = () => {
     const [blogs, setBlogs] = useState([]);
@@ -25,7 +26,7 @@ const BlogsPage = () => {
     if (blogs.length == 0) {
         return (
             <Layout>
-                loading....
+                  <ReactLoading type="spin" color="#000" height={50} width={50} />
             </Layout>
         )
     }

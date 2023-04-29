@@ -4,6 +4,15 @@ import Layout from '../layouts/Layout';
 import { AuthContext } from '../../contexts/authContextProvider';
 import instance from '../../services/axiosInit';
 
+
+const Dashboard = () => {
+    return (
+        <div className='w-full bg-purple-600 text-white px-5 py-3'>
+            控制台
+        </div>
+    )
+}
+
 const AdminPage = () => {
     const navigate = useNavigate();
     const { loggedInAdmin } = useContext(AuthContext);
@@ -52,42 +61,47 @@ const AdminPage = () => {
     }
 
     return (
-        <div className='flex flex-col mx-auto max-w-screen-md'>
-            <div className='border-2 p-3 rounded-lg my-5'>
-                <h2>所有博客</h2>
-                {blogs.map((blog) => {
-                    return (
-                        <div key={blog._id} className='border-2 p-1 my-2 flex justify-between'>
-                            <div>
-                                {blog.title}
-                            </div>
+        <div>
+            <Dashboard />
+            <div className='flex flex-col mx-auto max-w-screen-md'>
 
-                            <button onClick={e => handleDelete(blog._id)}>
-                                <svg class='icon' aria-hidden="true"> <use xlinkHref="#icon-shanchu"></use> </svg>
-                            </button>
-                        </div>
-                    )
-                })}
-            </div>
-            <div className='border-2 rounded-lg p-3'>
-                <h2>所有评论</h2>
-                {
-                    comments.map((comment) => {
+                <div className='border-2 p-3 rounded-lg my-5'>
+                    <h2>所有博客</h2>
+                    {blogs.map((blog) => {
                         return (
-                            <div key={comment._id} className='flex justify-between border-2 p-1 my-2 rounded-md'>
+                            <div key={blog._id} className='border-2 p-1 my-2 flex justify-between'>
                                 <div>
-                                    {comment.content} - {comment.author.username}
+                                    {blog.title}
                                 </div>
 
-                                <button onClick={e => handleDeleteComment(comment._id)}>
+                                <button onClick={e => handleDelete(blog._id)}>
                                     <svg class='icon' aria-hidden="true"> <use xlinkHref="#icon-shanchu"></use> </svg>
                                 </button>
                             </div>
                         )
-                    })
-                }
+                    })}
+                </div>
+                <div className='border-2 rounded-lg p-3'>
+                    <h2>所有评论</h2>
+                    {
+                        comments.map((comment) => {
+                            return (
+                                <div key={comment._id} className='flex justify-between border-2 p-1 my-2 rounded-md'>
+                                    <div>
+                                        {comment.content} - {comment.author.username}
+                                    </div>
+
+                                    <button onClick={e => handleDeleteComment(comment._id)}>
+                                        <svg class='icon' aria-hidden="true"> <use xlinkHref="#icon-shanchu"></use> </svg>
+                                    </button>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
             </div>
         </div>
+
     )
 }
 

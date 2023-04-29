@@ -8,6 +8,8 @@ import AddBlogPage from './components/pages/AddBlogPage';
 import SignUpPage from './components/pages/SignUpPage';
 import AdminLogin from './components/pages/AdminLogin';
 import AdminPage from './components/pages/AdminPage';
+import Envir from './components/pages/Envir';
+import About from './components/pages/About';
 
 function App() {
 
@@ -23,6 +25,8 @@ function App() {
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/admin/login' element={<AdminLogin />} />
           <Route path='/admin' element={<AdminPage />} />
+          <Route path='/envirment' element={<Envir />} />
+          <Route path='/about' element={<About />} />
         </Routes>
       </AuthContextProvider>
     </BrowserRouter>

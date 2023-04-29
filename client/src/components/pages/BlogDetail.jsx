@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import instance from '../../services/axiosInit';
 import Layout from '../layouts/Layout';
 import { AuthContext } from '../../contexts/authContextProvider';
+import ReactLoading from 'react-loading';
 
 const Comments = ({ blogId }) => {
     const [comments, setComments] = useState([]);
@@ -13,7 +14,6 @@ const Comments = ({ blogId }) => {
             instance.get(`/api/posts/${blogId}/comments`)
                 .then((response) => {
                     setComments(response.data);
-                    console.log(response.data);
                 })
                 .catch(err => {
                     console.log(err);
@@ -34,11 +34,11 @@ const Comments = ({ blogId }) => {
                 return (
                     <div className='my-3 border-2 rounded-lg'>
                         <div className='bg-white-100 bg-gray-100 p-3'>
-                        {comment.author.username} 
+                            {comment.author.username}
                         </div>
                         <div className='bg-white-200 p-3'>
-                        {comment.content}
-                        </div> 
+                            {comment.content}
+                        </div>
                     </div>
                 )
             })
@@ -92,7 +92,12 @@ const BlogDetail = () => {
 
     if (!blog) {
         return (
-            <Layout>loading...</Layout>
+            <Layout>
+                <div className='flex justify-center align-middle h-100'>
+                    <ReactLoading type="spin" color="#000" height={50} width={50} />
+                </div>
+
+            </Layout>
         )
     }
 

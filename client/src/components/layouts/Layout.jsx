@@ -9,8 +9,8 @@ const Layout = ({ children }) => {
             <header className='w-screen shadow-lg flex justify-between px-5 py-3 bg-purple-600 text-white fixed top-0'>
                 <ul className='flex'>
                     <li className='mx-3'><Link to='/'>首页</Link></li>
-                    <li className='mx-3'><Link to='/'>关于</Link></li>
-                    <li className='mx-3'><Link to='/'>生态系统</Link></li>
+                    <li className='mx-3'><Link to='/about'>关于</Link></li>
+                    <li className='mx-3'><Link to='/envirment'>生态系统</Link></li>
                 </ul>
                 <div className='flex align-middle'>
                     <div className='mx-3'>
